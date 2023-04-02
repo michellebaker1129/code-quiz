@@ -1,47 +1,150 @@
 const questionsObject = {
     // add property to keep track of currently shown question
-    currentQuestion: 0,
-    questions: [
-        {
-            id: 0,
-            question: "Which of the following is NOT a JavaScript keyword?",
-            answers: ["var", "let", "const", "give"],
-            correctAnswer: "give",
-        },  {
-            id: 1,
-            question: "Which is the highest heading element?",
-            answers: ["h1", "h2", "h3", "h4"],
-            correctAnswer: "h1",   
-        }, {
-            id: 2,
-            question: "Which is the lowest heading element?",
-            answers: ["h1", "h2", "h3", "h4"],
-            correctAnswer: "h4",
-        }
-    ],
-    answerQuestion: function (question, answerGiven) {
-        // compare answerGiven to question.correctAnswer
-        // return true or false
+    state: {
+        score: 0,
+        timer: 10,
+        currentQuestion: 0,
+        questions: [
+            {
+                question: "Which of the following is NOT a JavaScript keyword?",
+                answers: ["var", "let", "const", "give"],
+                correctAnswer: "give",
+            },  {
+                question: "Which is the highest heading element?",
+                answers: ["h1", "h2", "h3", "h4"],
+                correctAnswer: "h1",   
+            }, {
+                question: "Which is the lowest heading element?",
+                answers: ["h1", "h2", "h3", "h4"],
+                correctAnswer: "h4",
+            }
+        ],
+    },
+    decrementTimer: function (delta) {
+        this.state.timer -= delta
+    },
+    // create a method that counts down the timer using a setInterval call
+    countDown: function () {
+        // setInterval that runs 1000ms
+        const interval = setInterval(
+            // run a function every second
+            () => {
+                console.log(this.state.timer)
+                if (this.state.timer > 0) {
+                    // decrement this.timer until 0
+                    this.decrementTimer(1)
+                } else {
+                    // clear the interval
+                    // TODO if timer is 0 then end the round
+                    return clearInterval(interval)
+                }
+            },
+            1000
+        )
+    },
+    // create a function that sends a notification to the user
+    // type = "success" | "failure" | "info"
+    sendNotification: function ({ message, type = "success" }) {
+        // get #notification element and store in const
+        const notificationElement = document.querySelector("#notification");
+
+        // replace innerHTML of #notification with message prop
+        const notificationMarkup = `
+            <p class="${type}">${message}</p>
+        `;
+        notificationElement.innerHTML = notificationMarkup
+
+        // use setTimeout to erase notification after some amount of time
+        setTimeout(
+            () => {
+                notificationElement.innerHTML = ""
+            },
+            3000
+        );
     },
     // add method to show next question
-    showNextQuestion: function () {},
+    showNextQuestion: function () {
+        // reset timer to 10
+        this.state.timer = 10;
 
+        // increase currentQuestion property
+        this.state.currentQuestion += 1;
+
+        // TODO if there are no more questions, show end screen
+        if (this.state.currentQuestion > this.state.questions.length - 1 ) {
+            
+        }
+
+        // create variable and store the results of calling renderQuestion method
+        const nextQuestion = this.renderQuestion(this.state.currentQuestion);
+
+        // update dom with markup from renderQuestion method
+        document.querySelector("#quiz").innerHTML = nextQuestion;
+    },
+    answerQuestion: function (question, answerGiven) {
+        // compare answerGiven to question.correctAnswer to see if they got the answer right or wrong
+        const isCorrect = question.correctAnswer === answerGiven;
+        
+        if (!isCorrect) {
+            // if they got it wrong, decrease time
+            // decrement the timer by 2 seconds
+            this.decrementTimer(2)
+
+            // tell the user they got it wrong
+            this.sendNotification({ message: "oops! wrong answer", type: "failure" })
+        } else {
+            // if they got it right, increase score
+            // access timer and add it to score
+            this.state.score += this.state.timer
+
+            // TODO: show next question if there are more questions
+            this.showNextQuestion() 
+        }
+    },
+    renderQuestion: function (questionNumber) {
+        return `<div class="question">
+            <h2>${this.state.questions[questionNumber].question}</h2>
+            <ul>
+                <li>
+                    <button onclick="${() => this.answerQuestion(
+                        this.state.questions[questionNumber], 
+                        this.state.questions[questionNumber].answers[0]
+                    )}">
+                        ${this.state.questions[questionNumber].answers[0]}
+                    </button>
+                </li>
+                <li>
+                    <button onclick="${() => this.answerQuestion(
+                        this.state.questions[questionNumber], 
+                        this.state.questions[questionNumber].answers[1]
+                    )}">
+                        ${this.state.questions[questionNumber].answers[1]}
+                    </button>
+                </li>
+                <li>
+                    <button onclick="${() => this.answerQuestion(
+                        this.state.questions[questionNumber], 
+                        this.state.questions[questionNumber].answers[2]
+                    )}">
+                        ${this.state.questions[questionNumber].answers[2]}
+                    </button>
+                </li>
+                <li>
+                    <button onclick="${() => this.answerQuestion(
+                        this.state.questions[questionNumber], 
+                        this.state.questions[questionNumber].answers[3]
+                    )}">
+                        ${this.state.questions[questionNumber].answers[3]}
+                    </button>
+                </li>
+            </ul>
+        </div>
+        `;
+    }
 }
 
-const questionMarkup = `<div class="question">
-    <h2>${obj.questions[0].question}</h2>
-    <ul>
-        <li>
-            <button>
-                ${questions[0].answers[0]}
-            </button>
-        </li>
-        <li>${questions[0].answers[1]}</li>
-        <li>${questions[0].answers[2]}</li>
-        <li>${questions[0].answers[3]}</li>
-    </ul>
-</div>
-`;
+
+
 
 // Select start button
 // Add event listener to start button

@@ -11,6 +11,7 @@
     <main>
         <header>
             <h1>CODE QUIZ</h1>
+            <p>Score: <span id="currentScore">0</span></p>
         </header>
         <section id="intro">
             <div class="card">
@@ -19,8 +20,26 @@
                 <button type="button">Start</button>
             </div>
         </section>
-        <section id="quiz" class="hide">quiz</section>
-        <section id="end" class="hide">end</section>
+
+        <section id="quiz" class="hide"></section>
+
+        <section id="results" class="hide">
+            <input id="initialsInput" type="text" placeholder="Enter your initials" />
+            <p>Score: <span id="finalScore">0</span></p>
+            <button id="initialsSubmitBtn">Submit your Score</button>
+        </section>
+
+        <section id="end" class="hide">
+            <h2>Congrats!</h2>
+            <table id="highScores">
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </table>
+        </section>
+
+        <section id="notification"></section>
     </main>
 
     <!-- script will load after the HTMl -->

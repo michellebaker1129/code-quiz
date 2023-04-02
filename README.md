@@ -30,3 +30,6 @@ THEN I can save my initials and score
   - Handle timer
   - Build out the markup for individual questions
 
+string literal (vs template literal) 
+string interpolation
+TODO 
