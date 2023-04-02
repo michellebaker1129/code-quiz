@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 main {
@@ -18,5 +19,5 @@ h1 {
 }
 
 .hide {
-    display:none
+    display:none;
 }
