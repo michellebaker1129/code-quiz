@@ -12,31 +12,36 @@
         <header>
             <h1>CODE QUIZ</h1>
             <p>Score: <span id="currentScore">0</span></p>
+            <p>Timer: <span id="timer">0</span></p>
         </header>
-        <section id="intro">
+
+        <section id="intro" class="app-section">
             <div class="card">
                 <h2>Enter Quiz</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius laudantium consequatur at deleniti in aliquid, tenetur assumenda saepe iure. Totam dolores rerum rem culpa tempore?</p>
-                <button type="button">Start</button>
+                <button id="startQuiz" type="button">Start</button>
             </div>
         </section>
 
-        <section id="quiz" class="hide"></section>
+        <section id="quiz" class="hide app-section"></section>
 
-        <section id="results" class="hide">
+        <section id="results" class="hide app-section">
             <input id="initialsInput" type="text" placeholder="Enter your initials" />
             <p>Score: <span id="finalScore">0</span></p>
             <button id="initialsSubmitBtn">Submit your Score</button>
         </section>
 
-        <section id="end" class="hide">
+        <section id="end" class="hide app-section">
             <h2>Congrats!</h2>
             <table id="highScores">
                 <tr>
                     <th>Name</th>
                     <th>Score</th>
                 </tr>
+                <!-- TODO: add high scores here using javascript -->
             </table>
+
+            <button id="startOverQuiz">Start Over?</button>
         </section>
 
         <section id="notification"></section>
